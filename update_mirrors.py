@@ -86,6 +86,7 @@ if __name__ == '__main__':
     if os.path.isfile(lock_file):
         print("Already running update_mirrors or stale lockfile found: Exiting")
         exit(1)
+    lckf = open(lock_file, 'w')
     cmds = build_cmd()
     p = multiprocessing.Pool(max_thread)
     p.map(rsync, cmds);
