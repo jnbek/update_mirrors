@@ -58,6 +58,7 @@ mirrors = {
 }
 
 max_thread = 4
+lock_file  = '/tmp/update_mirrors.lock'
 base_path = '/share/www/mirrors/' # need trailing /
 
 def which(program):
@@ -78,10 +79,16 @@ def rsync(cmd):
     pid = os.getpid()
     print("Starting PID {0} {1}".format(pid, cmd))
     command = shlex.split(cmd)
-    subprocess.call(command)
+    #subprocess.call(command)
     print("Finishing PID {0} {1}".format(pid, cmd))
 
 if __name__ == '__main__':
+    if os.path.isfile(lock_file):
+        print("Already running update_mirrors or stale lockfile found: Exiting")
+        exit(1)
     cmds = build_cmd()
     p = multiprocessing.Pool(max_thread)
     p.map(rsync, cmds);
+    print("Main thread completed")
+    lckf.close()
+    os.remove(lock_file)
