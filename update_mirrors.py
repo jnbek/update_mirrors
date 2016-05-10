@@ -79,7 +79,7 @@ def rsync(cmd):
     pid = os.getpid()
     print("Starting PID {0} {1}".format(pid, cmd))
     command = shlex.split(cmd)
-    #subprocess.call(command)
+    subprocess.call(command)
     print("Finishing PID {0} {1}".format(pid, cmd))
 
 if __name__ == '__main__':
