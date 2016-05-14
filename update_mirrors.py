@@ -2,7 +2,6 @@
 
 import os
 import shlex
-import string
 import subprocess
 import multiprocessing
 
@@ -70,8 +69,8 @@ def which(program):
 def build_cmd():
     cmd_list = []
     for path in mirrors:
-        dest = string.join([base_path, path],'')
-        args = string.join([which("rsync"), mirrors[path]['args'], mirrors[path]['url'],dest])
+        dest = str.join('',[base_path, path])
+        args = str.join(chr(32), [which("rsync"), mirrors[path]['args'], mirrors[path]['url'],dest])
         cmd_list.append(args)
     return cmd_list
 
