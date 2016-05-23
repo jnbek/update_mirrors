@@ -62,15 +62,16 @@ base_path = '/share/www/mirrors/' # need trailing /
 
 def which(program):
     for p in os.environ['PATH'].split(':'):
-        fullpath = "{0}/{1}".format(p,program)
+        fullpath = os.path.join(p,program)
         if os.path.exists(fullpath):
             return fullpath
 
 def build_cmd():
     cmd_list = []
+    rsync_path = which("rsync")
     for path in mirrors:
         dest = str.join('',[base_path, path])
-        args = str.join(chr(32), [which("rsync"), mirrors[path]['args'], mirrors[path]['url'],dest])
+        args = str.join(chr(32), [rsync_path, mirrors[path]['args'], mirrors[path]['url'],dest])
         cmd_list.append(args)
     return cmd_list
 
